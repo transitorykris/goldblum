@@ -8,7 +8,7 @@ Don't do this in production (or probably anywhere?). This is just a proof of con
 
 ## What is it?
 
-A golang webserver that allows adding new endpoints while it's running!
+A golang webserver that allows adding new endpoints and modifying the source code for old endpoints live!
 
 ## Why?
 
@@ -31,10 +31,10 @@ Set `Method` to `GET` and the endpoint to `/helloworld` and the code to:
 ```golang
 package main
 
-import {
+import (
     "fmt"
     "net/http"
-}
+)
 
 const page = "<html><body><h1>Hello, World!</h1></body></html>"
 
@@ -45,9 +45,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 Now navigate to `http://localhost:8001/helloworld` to test out your new endpoint.
 
+Go ahead and head back to the editor and make a change to the endpoints source!
+
 ## License
 
-Copyright 2017 Ahead by a Century, LLC
+Copyright 2017 Kris Foster
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

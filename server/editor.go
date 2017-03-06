@@ -11,15 +11,16 @@ import (
 
 // Endpoint represents a single endpoint created by the user
 type Endpoint struct {
-	ID     int64
-	Method string
-	Path   string
-	Code   string
+	ID      int64
+	Version int64
+	Method  string
+	Path    string
+	Code    string
 }
 
 func (s *Server) getEndpoints() ([]Endpoint, error) {
 	var e []Endpoint
-	err := s.db.Select(&e, "SELECT `id`, `method`, `path`, `code` FROM `endpoint`")
+	err := s.db.Select(&e, "SELECT `id`, `version`, `method`, `path`, `code` FROM `endpoint`")
 	return e, err
 }
 
@@ -82,7 +83,7 @@ func (s *Server) CreateEndpointHandler() http.HandlerFunc {
 
 func (s *Server) getEndpoint(id int64) (Endpoint, error) {
 	var e Endpoint
-	err := s.db.Get(&e, "SELECT `id`, `method`, `path`, `code` FROM `endpoint` WHERE `id`=?", id)
+	err := s.db.Get(&e, "SELECT `id`, `version`, `method`, `path`, `code` FROM `endpoint` WHERE `id`=?", id)
 	return e, err
 }
 
@@ -103,7 +104,11 @@ func (s *Server) GetEndpointHandler() http.HandlerFunc {
 }
 
 func (s *Server) updateEndpoint(id int64, code string) error {
-	_, err := s.db.Exec("UPDATE `endpoint` SET `code`=? WHERE `id`=?", code, id)
+	var version int64
+	if err := s.db.Get(&version, "SELECT `version` FROM `endpoint` WHERE `id`=?", id); err != nil {
+		return err
+	}
+	_, err := s.db.Exec("UPDATE `endpoint` SET `code`=?, `version`=? WHERE `id`=?", code, version+1, id)
 	return err
 }
 
@@ -116,11 +121,13 @@ func (s *Server) UpdateEndpointHandler() http.HandlerFunc {
 		r.ParseForm()
 		code := r.FormValue("code")
 		if err := s.updateEndpoint(id, code); err != nil {
+			s.log.Errorln(err)
 			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusInternalServerError)
 			return
 		}
 		_, err := s.compile(id)
 		if err != nil {
+			s.log.Errorln(err)
 			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusBadRequest)
 			return
 		}
