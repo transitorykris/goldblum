@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bitbucket.org/liamstask/goose/lib/goose"
 	"github.com/Sirupsen/logrus"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -25,6 +26,11 @@ func NewServer() (*Server, error) {
 func (s *Server) ConnectDB(db string) error {
 	var err error
 	s.db, err = sqlx.Connect("mysql", db)
+	if err != nil {
+		return err
+	}
+	s.log.Println("Running migrations")
+	s.migrations(db)
 	return err
 }
 
@@ -42,4 +48,32 @@ func (s *Server) Router() *mux.Router {
 // Close closes down the server
 func (s *Server) Close() error {
 	return s.db.Close()
+}
+
+// migrations runs our database migrations
+func (s *Server) migrations(openStr string) error {
+	// Setup the goose configuration
+	c := &goose.DBConf{
+		MigrationsDir: "db/migrations",
+		Env:           "development",
+		Driver: goose.DBDriver{
+			Name:    "mysql",
+			OpenStr: openStr,
+			Import:  "github.com/go-sql-driver/mysql",
+			Dialect: &goose.MySqlDialect{},
+		},
+	}
+
+	// Get the latest possible migration
+	latest, err := goose.GetMostRecentDBVersion(c.MigrationsDir)
+	if err != nil {
+		return err
+	}
+
+	// Migrate up to the latest version
+	if err = goose.RunMigrationsOnDb(c, c.MigrationsDir, latest, s.db.DB); err != nil {
+		return err
+	}
+
+	return nil
 }
