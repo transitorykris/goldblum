@@ -40,7 +40,7 @@ import (
 
 const page = "<html><body><h1>Hello, World!</h1></body></html>"
 
-func Handler(w http.ResponseWriter, r *http.Request) {
+func Handler(g *gb.Goldblum, w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, page)
 }
 ```
@@ -48,6 +48,19 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 Now navigate to `http://localhost:8001/helloworld` to test out your new endpoint.
 
 Go ahead and head back to the editor and make a change to the endpoints source!
+
+## Tell me more
+
+### *gb.Goldblum
+
+Your handler gets a sweet struct containing a connection to the database as well as a structured logger.
+
+```golang
+type Goldblum struct {
+	DB  *sqlx.DB
+	Log *logrus.Logger
+}
+```
 
 ## License
 

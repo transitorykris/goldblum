@@ -38,6 +38,11 @@ func (s *Server) DynamicHandler() http.HandlerFunc {
 			gb.Response(w, &gb.EmptyResponse{}, http.StatusInternalServerError)
 			return
 		}
-		handler.(gb.Handler)(w, r)
+		// We'll reuse the server's DB and logger
+		g := &gb.Goldblum{
+			DB:  s.db,
+			Log: s.log,
+		}
+		handler.(gb.Handler)(g, w, r)
 	})
 }
