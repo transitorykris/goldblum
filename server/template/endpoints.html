@@ -1,39 +1,60 @@
-<h1>Endpoints</h1>
+<html>
+    <head>
+        <title>Goldblum editor</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/codemirror.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/codemirror.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/mode/go/go.min.js"></script>
+    </head>
+    <body>
+        <h1>Endpoints</h1>
 
-<table>
-    {{ range . }}
-    <tr>
-        <td><a href="/editor/endpoint/{{ .ID }}">edit</a></td>
-        <td>{{ .Method }}</td>
-        <td>{{ .Path }}</td>
-    </tr>
-    {{ end }}
-</table>
+        <table>
+            {{ range . }}
+            <tr>
+                <td><a href="/editor/endpoint/{{ .ID }}">edit</a></td>
+                <td>{{ .Method }}</td>
+                <td>{{ .Path }}</td>
+            </tr>
+            {{ end }}
+        </table>
 
-<h2>New</h2>
-<form action="/editor/endpoint" method="post">
-    <label>Method</label>
-    <select name="method">
-        <option value="GET">GET</option>
-        <option value="POST">POST</option>
-        <option value="PUT">PUT</option>
-        <option value="DELETE">DELETE</option>
-        <option value="HEAD">HEAD</option>
-        <option value="OPTION">OPTION</option>
-        <option value="PATCH">PATCH</option>
-    </select>
-    <label>Path</label>
-    <input size="50" type="text" name="path" /><br />
-    <label>Code</label><br />
-    <textarea cols="100" rows="30" name="code">
+        <h2>New</h2>
+        <form action="/editor/endpoint" method="post">
+            <label>Method</label>
+            <select name="method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+                <option value="HEAD">HEAD</option>
+                <option value="OPTION">OPTION</option>
+                <option value="PATCH">PATCH</option>
+            </select>
+            <label>Path</label>
+            <input size="50" type="text" name="path" /><br />
+            <label>Code</label><br />
+            <textarea cols="100" rows="30" name="code" id="code">
 package main
 
 import (
-    "net/http"
+  "fmt"
+  "net/http"
+
+  gb "github.com/transitorykris/goldblum"
 )
 
 func Handler(g *gb.Goldblum, w http.ResponseWriter, r *http.Request) {
+  // Your sweet code here
+  fmt.Fprintf(w, "Hello, World!")
 }
-    </textarea><br />
-    <input type="submit" />
-</form>
+            </textarea><br />
+            <input type="submit" />
+        </form>
+        <script>
+            var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
+                mode:  "go",
+            });
+            window.onload = myCodeMirror;
+        </script>
+    </body>
+</html>

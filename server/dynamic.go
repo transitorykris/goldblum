@@ -43,6 +43,6 @@ func (s *Server) DynamicHandler() http.HandlerFunc {
 			DB:  s.db,
 			Log: s.log,
 		}
-		handler.(gb.Handler)(g, w, r)
+		handler.(func(*gb.Goldblum, http.ResponseWriter, *http.Request))(g, w, r)
 	})
 }
