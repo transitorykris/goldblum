@@ -36,6 +36,8 @@ package main
 import (
     "fmt"
     "net/http"
+
+    gb "github.com/transitorykris/goldblum"
 )
 
 const page = "<html><body><h1>Hello, World!</h1></body></html>"
