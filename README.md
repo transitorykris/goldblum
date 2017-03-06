@@ -20,7 +20,7 @@ To see if I could.
 docker-compose up
 ```
 
-Will give you an instance of Goldblum and a MySQL server.
+This will give you an instance of Goldblum and a MySQL server. It may take a few minutes the first time to come up.
 
 Navigate in your browser to `http://localhost:8001/` to create your first endpoint.
 
@@ -52,7 +52,7 @@ func HealthcheckHandler() gb.HandlerFunc {
 }
 ```
 
-Now navigate to `http://localhost:8002/healthcheck` to test out your new endpoint.
+Now navigate to `http://localhost:8001/healthcheck` to test out your new endpoint.
 
 ## License
 
