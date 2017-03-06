@@ -2,7 +2,7 @@
 
 Your scientists were so preoccupied with whether or not they could, they didn’t stop to think if they should.
 
-![Jeff Goldblum](https://github.com/transitorykris/images/goldblum.jpg)
+![Jeff Goldblum](https://github.com/transitorykris/blob/master/images/goldblum.jpg)
 
 ## Warning
 
