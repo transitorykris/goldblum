@@ -65,7 +65,13 @@ func (s *Server) CreateEndpointHandler() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		s.log.Debugln(r.Method, r.URL.Path, r.RemoteAddr)
 		r.ParseForm()
-		_, err := s.createEndpoint(r.FormValue("method"), r.FormValue("path"), r.FormValue("code"))
+		endpoint, err := s.createEndpoint(r.FormValue("method"), r.FormValue("path"), r.FormValue("code"))
+		if err != nil {
+			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusBadRequest)
+			return
+		}
+		s.log.Infoln("Compiling", endpoint)
+		_, err = s.compile(endpoint.ID)
 		if err != nil {
 			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusBadRequest)
 			return
@@ -76,7 +82,7 @@ func (s *Server) CreateEndpointHandler() http.HandlerFunc {
 
 func (s *Server) getEndpoint(id int64) (Endpoint, error) {
 	var e Endpoint
-	err := s.db.Get(&e, "SELECT `id`, `method`, `path`, `code` FROM `endpoint`")
+	err := s.db.Get(&e, "SELECT `id`, `method`, `path`, `code` FROM `endpoint` WHERE `id`=?", id)
 	return e, err
 }
 

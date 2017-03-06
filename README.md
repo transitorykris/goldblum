@@ -8,7 +8,7 @@ Don't do this in production (or probably anywhere?). This is just a proof of con
 
 ## What is it?
 
-A golang webserver that allows live changes to its endpoints.
+A golang webserver that allows live changes to its endpoints by hot reloading!
 
 ## Why?
 
@@ -26,33 +26,26 @@ Navigate in your browser to `http://localhost:8001/` to create your first endpoi
 
 Here's an easy one:
 
-Set `Method` to `GET` and the endpoint to `/healthcheck` and the code to:
+Set `Method` to `GET` and the endpoint to `/helloworld` and the code to:
 
 ```golang
 package main
 
-import (
-    "log"
+import {
+    "fmt"
     "net/http"
-
-    gb "github.com/transitorykris/goldblum"
-)
-
-// Healthcheck is returned when the health of this service is requested
-type Healthcheck struct {
-	Status string `json:"status"`
 }
 
-// HealthcheckHandler returns the health of this service
-func HealthcheckHandler() gb.HandlerFunc {
-    return gb.HandlerFunc(func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-        log.Println("Healthcheck called")
-        gb.Response(w, &Healthcheck{Status: "ok"}, http.StatusOK)
-    })
+const page = "<html><body><h1>Hello, World!</h1></body></html>"
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, page)
 }
 ```
 
-Now navigate to `http://localhost:8001/healthcheck` to test out your new endpoint.
+Now navigate to `http://localhost:8001/helloworld` to test out your new endpoint.
+
+You can go back to the editor and modify this function, all without stopping the webserver!
 
 ## License
 
