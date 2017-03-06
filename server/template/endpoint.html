@@ -3,6 +3,6 @@
 <div>{{ .Method }}</div>
 <div>{{ .Path }}</div>
 <form action="/editor/endpoint/{{ .ID }}" method="post">
-    <textarea name="code">{{ .Code }}</textarea>
+    <textarea cols="100" rows="30" name="code">{{ .Code }}</textarea>
     <input type="submit" />
 </form>

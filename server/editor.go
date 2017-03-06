@@ -71,10 +71,23 @@ func (s *Server) GetEndpointHandler() http.HandlerFunc {
 	})
 }
 
+func (s *Server) updateEndpoint(id int64, code string) error {
+	_, err := s.db.Exec("UPDATE `endpoint` SET `code`=? WHERE `id`=?", code, id)
+	return err
+}
+
 // UpdateEndpointHandler is a simple interface for modifying endpoints
 func (s *Server) UpdateEndpointHandler() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		s.log.Debugln(r.Method, r.URL.Path, r.RemoteAddr)
-		gb.Response(w, &gb.EmptyResponse{}, http.StatusOK)
+		vars := mux.Vars(r)
+		id, _ := strconv.ParseInt(vars["id"], 10, 64)
+		r.ParseForm()
+		code := r.FormValue("code")
+		if err := s.updateEndpoint(id, code); err != nil {
+			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, "/editor", 302)
 	})
 }
