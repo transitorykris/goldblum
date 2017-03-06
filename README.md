@@ -12,7 +12,7 @@ Don't do this in production (or probably anywhere?). This is just a proof of con
 
 A golang webserver that allows adding new endpoints and modifying the source code for old endpoints live!
 
-![Jeff Goldblum](https://raw.githubusercontent.com/transitorykris/goldblum/master/images/example.jpg)
+![Example screenshot](https://raw.githubusercontent.com/transitorykris/goldblum/master/images/example.png)
 
 ## Why?
 
