@@ -1,14 +1,13 @@
 package goldblum
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
 )
 
-// HandlerFunc represents an HTTP handler
-type HandlerFunc func(context.Context, http.ResponseWriter, *http.Request)
+// Handler is an HTTP handler created by the user
+type Handler func(http.ResponseWriter, *http.Request)
 
 // ErrorResponse is used when a json object needs to be returned with just an error
 type ErrorResponse struct {

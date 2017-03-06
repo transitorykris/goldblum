@@ -38,6 +38,6 @@ func (s *Server) DynamicHandler() http.HandlerFunc {
 			gb.Response(w, &gb.EmptyResponse{}, http.StatusInternalServerError)
 			return
 		}
-		handler.(func(http.ResponseWriter, *http.Request))(w, r)
+		handler.(gb.Handler)(w, r)
 	})
 }
