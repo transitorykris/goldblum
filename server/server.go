@@ -32,7 +32,10 @@ func (s *Server) ConnectDB(db string) error {
 func (s *Server) Router() *mux.Router {
 	r := mux.NewRouter()
 	r.Handle("/editor", s.EditorHandler()).Methods("GET")
-	r.Handle("/", s.DynamicHandler()).Methods("GET")
+	r.Handle("/editor/endpoint", s.CreateEndpointHandler()).Methods("POST")
+	r.Handle("/editor/endpoint/{id:[0-9]+}", s.GetEndpointHandler()).Methods("GET")
+	r.Handle("/editor/endpoint/{id:[0-9]+}", s.UpdateEndpointHandler()).Methods("POST")
+	r.PathPrefix("/").Handler(s.DynamicHandler())
 	return r
 }
 
