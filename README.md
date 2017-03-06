@@ -8,7 +8,7 @@ Don't do this in production (or probably anywhere?). This is just a proof of con
 
 ## What is it?
 
-A golang webserver that allows live changes to its endpoints by hot reloading!
+A golang webserver that allows adding new endpoints while it's running!
 
 ## Why?
 
@@ -44,8 +44,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 ```
 
 Now navigate to `http://localhost:8001/helloworld` to test out your new endpoint.
-
-You can go back to the editor and modify this function, all without stopping the webserver!
 
 ## License
 
