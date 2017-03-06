@@ -1,10 +1,10 @@
 package main
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 
-	"github.com/alecthomas/template"
 	"github.com/gorilla/mux"
 	gb "github.com/transitorykris/goldblum"
 )
@@ -111,6 +111,11 @@ func (s *Server) UpdateEndpointHandler() http.HandlerFunc {
 		code := r.FormValue("code")
 		if err := s.updateEndpoint(id, code); err != nil {
 			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusInternalServerError)
+			return
+		}
+		_, err := s.compile(id)
+		if err != nil {
+			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusBadRequest)
 			return
 		}
 		http.Redirect(w, r, "/editor", 302)
