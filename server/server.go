@@ -41,7 +41,7 @@ func (s *Server) Router() *mux.Router {
 	r.Handle("/editor/endpoint", s.CreateEndpointHandler()).Methods("POST")
 	r.Handle("/editor/endpoint/{id:[0-9]+}", s.GetEndpointHandler()).Methods("GET")
 	r.Handle("/editor/endpoint/{id:[0-9]+}", s.UpdateEndpointHandler()).Methods("POST")
-	r.PathPrefix("/").Handler(s.DynamicHandler())
+	//r.PathPrefix("/").Handler(s.DynamicHandler())
 	return r
 }
 

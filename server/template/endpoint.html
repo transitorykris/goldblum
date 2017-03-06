@@ -1,0 +1,8 @@
+<h1>Endpoint</h1>
+
+<div>{{ .Method }}</div>
+<div>{{ .Path }}</div>
+<form action="/editor/endpoint/{{ .ID }}" method="post">
+    <textarea name="code">{{ .Code }}</textarea>
+    <input type="submit" />
+</form>

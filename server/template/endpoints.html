@@ -1,0 +1,11 @@
+<h1>Endpoints</h1>
+
+<table>
+    {{ range . }}
+    <tr>
+        <td><a href="/editor/endpoint/{{ .ID }}">edit</a></td>
+        <td>{{ .Method }}</td>
+        <td>{{ .Path }}</td>
+    </tr>
+    {{ end }}
+</table>
