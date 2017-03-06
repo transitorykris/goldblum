@@ -25,6 +25,15 @@
     <label>Path</label>
     <input size="50" type="text" name="path" /><br />
     <label>Code</label><br />
-    <textarea cols="100" rows="30" name="code"></textarea><br />
+    <textarea cols="100" rows="30" name="code">
+package main
+
+import (
+    "net/http"
+)
+
+func Handler(g *gb.Goldblum, w http.ResponseWriter, r *http.Request) {
+}
+    </textarea><br />
     <input type="submit" />
 </form>
