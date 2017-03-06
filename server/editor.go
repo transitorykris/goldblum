@@ -41,11 +41,36 @@ func (s *Server) EditorHandler() http.HandlerFunc {
 	})
 }
 
+func (s *Server) createEndpoint(method string, path string, code string) (Endpoint, error) {
+	var e Endpoint
+	res, err := s.db.Exec(
+		"INSERT INTO `endpoint` (`method`, `path`, `code`) VALUES (?, ?, ?)",
+		method, path, code,
+	)
+	if err != nil {
+		return e, err
+	}
+	id, _ := res.LastInsertId()
+	e = Endpoint{
+		ID:     id,
+		Method: method,
+		Path:   path,
+		Code:   code,
+	}
+	return e, nil
+}
+
 // CreateEndpointHandler is a simple interface for modifying endpoints
 func (s *Server) CreateEndpointHandler() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		s.log.Debugln(r.Method, r.URL.Path, r.RemoteAddr)
-		gb.Response(w, &gb.EmptyResponse{}, http.StatusOK)
+		r.ParseForm()
+		_, err := s.createEndpoint(r.FormValue("method"), r.FormValue("path"), r.FormValue("code"))
+		if err != nil {
+			gb.Response(w, &gb.ErrorResponse{Error: err.Error()}, http.StatusBadRequest)
+			return
+		}
+		http.Redirect(w, r, "/editor", 302)
 	})
 }
 
