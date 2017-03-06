@@ -58,7 +58,6 @@ func (s *Server) createEndpoint(method string, path string, code string) (Endpoi
 		Path:   path,
 		Code:   code,
 	}
-	s.log.Errorln("WTF CODE?", e.Code)
 	return e, nil
 }
 

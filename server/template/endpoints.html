@@ -33,7 +33,7 @@
             <label>Path</label>
             <input size="50" type="text" name="path" /><br />
             <label>Code</label><br />
-            <textarea cols="100" rows="30" name="code" id="code">
+<textarea cols="100" rows="30" name="code" id="code">
 package main
 
 import (
@@ -47,12 +47,13 @@ func Handler(g *gb.Goldblum, w http.ResponseWriter, r *http.Request) {
   // Your sweet code here
   fmt.Fprintf(w, "Hello, World!")
 }
-            </textarea><br />
+</textarea><br />
             <input type="submit" />
         </form>
         <script>
             var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
                 mode:  "go",
+                lineNumbers: true,
             });
             window.onload = myCodeMirror;
         </script>

@@ -1,8 +1,25 @@
-<h1>Endpoint</h1>
+<html>
+    <head>
+        <title>Goldblum editor</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/codemirror.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/codemirror.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/mode/go/go.min.js"></script>
+    </head>
+    <body>
+        <h1>Endpoint</h1>
 
-<div>{{ .Method }}</div>
-<div>{{ .Path }}</div>
-<form action="/editor/endpoint/{{ .ID }}" method="post">
-    <textarea cols="100" rows="30" name="code">{{ .Code }}</textarea>
-    <input type="submit" />
-</form>
+        <div>{{ .Method }}</div>
+        <div>{{ .Path }}</div>
+        <form action="/editor/endpoint/{{ .ID }}" method="post">
+            <textarea cols="100" rows="30" name="code" id="code">{{ .Code }}</textarea>
+            <input type="submit" />
+        </form>
+        <script>
+            var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"), {
+                mode:  "go",
+                lineNumbers: true,
+            });
+            window.onload = myCodeMirror;
+        </script>
+    </body>
+</html>
