@@ -2,8 +2,6 @@
 
 Your scientists were so preoccupied with whether or not they could, they didn’t stop to think if they should.
 
-![Jeff Goldblum](https://raw.githubusercontent.com/transitorykris/goldblum/master/images/goldblum.jpg)
-
 ## Warning
 
 Don't do this in production (or probably anywhere?). This is just a proof of concept. Seriously. It's not secure, it's not safe.
@@ -81,3 +79,5 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+![Jeff Goldblum](https://raw.githubusercontent.com/transitorykris/goldblum/master/images/goldblum.jpg)
